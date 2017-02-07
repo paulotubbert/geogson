@@ -2,6 +2,7 @@ package com.github.filosganga.geogson.gson;
 
 import com.github.filosganga.geogson.model.Feature;
 import com.github.filosganga.geogson.model.FeatureCollection;
+import com.github.filosganga.geogson.model.GeoJsonConst;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
@@ -10,7 +11,6 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
-import java.util.*;
 
 
 /**
@@ -29,13 +29,22 @@ public class FeatureCollectionAdapter extends TypeAdapter<FeatureCollection> {
         if (value == null) {
             out.nullValue();
         } else {
+            // Parse Features:
             out.beginObject();
-            out.name("features");
+
+            // Write the type:
+            out.name(GeoJsonConst.TYPE)
+                    .value(GeoJsonConst.TYPE_FEATURE_COLLECTION);
+
+            // Write the features array:
+            out.name(GeoJsonConst.FEATURES);
             out.beginArray();
             for(Feature feature : value.features()) {
                 gson.getAdapter(Feature.class).write(out, feature);
             }
             out.endArray();
+
+            // Finish the FeatureColection JsonObject:
             out.endObject();
         }
     }

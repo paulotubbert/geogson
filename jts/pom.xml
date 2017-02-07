@@ -29,11 +29,6 @@
     <name>GeoGson JTS</name>
     <description>GeoJSON support for Google Gson - JTS</description>
 
-    <properties>
-        <project.main.basedir>${project.parent.basedir}</project.main.basedir>
-    </properties>
-
-
     <dependencies>
 
         <dependency>
@@ -43,7 +38,7 @@
 
         <dependency>
             <groupId>com.vividsolutions</groupId>
-            <artifactId>jts-core</artifactId>
+            <artifactId>jts</artifactId>
         </dependency>
 
         <dependency>

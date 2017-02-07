@@ -1,5 +1,6 @@
 package com.github.filosganga.geogson.model;
 
+import com.github.filosganga.geogson.model.positions.Properties;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
@@ -81,6 +82,18 @@ public class Feature {
         return new Feature(geometry, properties, Optional.of(id));
     }
 
+    // -----------------------------------------------------------------------------------------------
+
+    /**
+     * Return a copy of this Feature with the given properties.
+     *
+     * @param properties The properties of the new Feature instance.
+     * @return a new Feature instance.
+     */
+    public Feature withProperties(Properties properties) {
+        return withProperties(properties.toImmutableMap());
+    }
+
     /**
      * Return a copy of this Feature with the given properties.
      *
@@ -102,6 +115,12 @@ public class Feature {
     public Feature withProperty(String name, JsonElement value) {
         return new Feature(geometry, ImmutableMap.<String, JsonElement>builder().putAll(properties).put(name, value).build(), id);
     }
+
+    public Properties getProperties() {
+        return Properties.from(properties);
+    }
+
+    // -----------------------------------------------------------------------------------------------
 
     @Override
     public int hashCode() {

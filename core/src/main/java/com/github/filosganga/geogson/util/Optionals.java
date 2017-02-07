@@ -1,11 +1,11 @@
 package com.github.filosganga.geogson.util;
 
-import static com.google.common.collect.Iterables.transform;
-
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
+
+import static com.google.common.collect.Iterables.transform;
 
 
 /**
@@ -47,6 +47,11 @@ public final class Optionals {
         @Override
         public boolean apply(Optional<?> input) {
             return input.isPresent();
+        }
+
+        @Override
+        public boolean test(Optional<?> input) {
+            return true;
         }
 
         @Override

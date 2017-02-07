@@ -16,14 +16,14 @@
 
 package com.github.filosganga.geogson.model;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Iterator;
-
 import com.github.filosganga.geogson.model.positions.Positions;
 import com.github.filosganga.geogson.model.positions.SinglePosition;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
+
+import java.io.Serializable;
+import java.util.Iterator;
 
 /**
  * Collection of {@link Geometry} holding an {@link Iterable} being a
@@ -110,7 +110,7 @@ public class GeometryCollection implements Geometry<Positions>, Serializable {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("geometries", this.geometries) //$NON-NLS-1$
                 .toString();
     }
