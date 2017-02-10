@@ -1,5 +1,7 @@
 package com.github.filosganga.geogson.model.positions;
 
+import com.github.filosganga.geogson.model.Feature;
+import com.github.filosganga.geogson.model.FeatureCollection;
 import com.github.filosganga.geogson.model.GeoJsonConst;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
@@ -22,6 +24,10 @@ public class Properties {
         return properties;
     }
 
+    public static Properties withName(String name) {
+        return new Properties().setName(name);
+    }
+
     public Properties() {
         this.registeredProperties = new HashMap<>();
     }
@@ -37,7 +43,7 @@ public class Properties {
     @Nullable
     public String getString(String key) {
         JsonElement mappedValue = registeredProperties.get(key);
-        if(mappedValue != null && mappedValue.isJsonPrimitive() &&
+        if (mappedValue != null && mappedValue.isJsonPrimitive() &&
                 ((JsonPrimitive) mappedValue).isString()) {
             return mappedValue.getAsString();
         }
@@ -61,10 +67,12 @@ public class Properties {
         return this;
     }
 
+    @Nullable
     public String getName() {
         return getString(GeoJsonConst.NAME);
     }
 
+    @Nullable
     public String getAddress() {
         return getString(GeoJsonConst.ADDRESS);
     }
@@ -77,6 +85,32 @@ public class Properties {
 
     public ImmutableMap<String, JsonElement> toImmutableMap() {
         return ImmutableMap.copyOf(registeredProperties);
+    }
+
+    public static class PropertyIndex {
+        private final Map<String, Feature> propertyNameMap;
+
+        private PropertyIndex() {
+            propertyNameMap = new HashMap<>();
+        }
+
+        public static PropertyIndex parse(FeatureCollection featureCollection) {
+            PropertyIndex finder = new PropertyIndex();
+            for (Feature feature : featureCollection.features()) {
+                String featureName = feature.getProperties().getName();
+                if(featureName != null) {
+                    finder.propertyNameMap.put(featureName, feature);
+                }
+            }
+            return finder;
+        }
+
+        @Nullable
+        public Feature findFeatureWithName(String name) {
+          return propertyNameMap.get(name);
+        }
+
+
     }
 
 }
